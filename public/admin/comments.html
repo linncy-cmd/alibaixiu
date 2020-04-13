@@ -1,0 +1,262 @@
+<script src="/login/status"></script>
+<script>
+    if (!isLogin) location.href = "login.html"
+</script>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../vendors/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../vendors/nprogress/nprogress.css">
+    <link rel="stylesheet" href="../font/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <script src="../vendors/nprogress/nprogress.js"></script>
+</head>
+
+<body>
+    <div class="main">
+        <nav class="navbar">
+            <button class="btn btn-default navbar-btn fa fa-bars"></button>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><i class="fa fa-user"></i>修改密码</a></li>
+                <li><a href="#" id="logout"><i class="fa fa-sign-out"></i>退出登录</a></li>
+            </ul>
+        </nav>
+        <div class="container-fluid">
+            <div class="page-title">
+                <h1>所有评论</h1>
+            </div>
+            <nav class="page-action" aria-label="Page navigation">
+                <ul class="pagination pagination-sm pull-right">
+                    <li>
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">上一页</span>
+                        </a>
+                    </li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li>
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true">下一页</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <table class="table  table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>作者</th>
+                        <th>评论</th>
+                        <th>评论在</th>
+                        <th>提交于</th>
+                        <th>状态</th>
+                        <th class="text-center" width="100">操作</th>
+                    </tr>
+                </thead>
+                <tbody class="tbody">
+                    <tr class="danger">
+                        <td>大大</td>
+                        <td>楼主好人，顶一个</td>
+                        <td>《Hello world》</td>
+                        <td>2026/10/07</td>
+                        <td>未批准</td>
+                        <td class="text-center">
+                            <a href="#" class="btn btn-info btn-xs">批准</a>
+                            <a href="javascript:;" class="btn btn-danger btn-xs">删除</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>大大</td>
+                        <td>楼主好人，顶一个</td>
+                        <td>《Hello world》</td>
+                        <td>2026/10/07</td>
+                        <td>已批准</td>
+                        <td class="text-center">
+                            <a href="#" class="btn btn-warning btn-xs">驳回</a>
+                            <a href="javascript:;" class="btn btn-danger btn-xs">删除</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>大大</td>
+                        <td>楼主好人，顶一个</td>
+                        <td>《Hello world》</td>
+                        <td>2026/10/07</td>
+                        <td>已批准</td>
+                        <td class="text-center">
+                            <a href="#" class="btn btn-warning btn-xs">驳回</a>
+                            <a href="javascript:;" class="btn btn-danger btn-xs">删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+    <div class="aside ">
+        <div class="profile ">
+            <img src="../uploads/avatar.jpg " alt=" " class="avatar" id="avatar1">
+            <h3 class="name text-muted " id="preview">Coder</h3>
+        </div>
+        <ul class="nav ">
+            <li><a href="/admin/index.html"><i class="fa fa-dashboard "></i>仪表盘</a></li>
+            <li>
+                <a href="#menu-post" class="collapse in" data-toggle="collapse">
+                    <i class="fa fa-thumb-tack "></i>文章<i class="fa fa-angle-right "></i>
+                </a>
+                <ul id="menu-post">
+                    <li><a href="/admin/posts.html">所有文章</a></li>
+                    <li><a href="/admin/post-add.html">写文章</a></li>
+                    <li><a href="/admin/categories.html">分类目录</a></li>
+                </ul>
+            </li>
+            <li><a href="/admin/comments.html"><i class="fa fa-comments "></i>评论</a></li>
+            <li><a href="/admin/user.html"><i class="fa fa-users "></i>用户</a></li>
+            <li><a href="#menu-setting" data-toggle="collapse" class="in collapse"><i class="fa fa-cog "></i> 设置<i class="fa fa-angle-right "></i></a>
+                <ul id="menu-setting">
+                    <li><a href="/admin/settings.html">网站设置</a></li>
+                    <li><a href="/admin/selides.html">图片轮播</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</body>
+
+<script src="../css/jquery-1.12.2.min.js"></script>
+<script src="../vendors/bootstrap/js/bootstrap.js"></script>
+<!-- 退出登录 -->
+<script src="../js/logout.js"></script>
+<!-- 引入模板引擎 -->
+<script src="../vendors/template/template-web.js"></script>
+<!-- 评论内容展示模板 -->
+<script type="text/html" id="CommentTp1">
+    {{each records}}
+    <tr class="danger">
+        <td>{{$value.author.nickName}}</td>
+        <td>{{$value.content}}</td>
+        <td>《{{$value.post.title}}》</td>
+        <td>{{dateformat($value.createAt)}}</td>
+        <td>{{$value.state == 0 ? "未批准":"批准"}}</td>
+        <td class="text-center">
+            <a href="#" class="btn btn-info btn-xs modify" data-status="{{$value.state}}" data-id="{{@$value._id}}">{{$value.state ==0 ? "批准" : "驳回"}}</a>
+            <a href="javascript:;" class="btn btn-danger btn-xs delete" data-id="{{@$value._id}}">删除</a>
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<!-- 页码展示模板 -->
+<script type="text/html" id="pageTp1">
+    <li style='display:{{page-0-1<1 ? "none":"inline"}}' onclick="changePage({{page-0-1}})"><a href="#">&laquo;</a></li>
+    {{each display}}
+    <li><a href="#" data-page="{{$value}}" onclick="changePage({{$value}})">{{$value}}</a></li>
+    {{/each}}
+    <li style='display:{{page-0+1>pages ? " none ":"inline "}}' onclick="changePage({{page-0+1}})"><a href="#">&raquo;</a></li>
+</script>
+<script>
+    $(document).on("ajaxStart", function() {
+        NProgress.start();
+    });
+    $(document).on("ajaxComplete", function() {
+        NProgress.done();
+    });
+    //向模板传递函数
+    template.defaults.imports.dateformat = dateFormat;
+    var commentArr = [];
+    //初始化界面
+    $.ajax({
+        url: "/comments",
+        type: "get",
+        success: function(response) {
+            commentArr = response.records;
+            let html = template("CommentTp1", {
+                records: commentArr,
+            });
+            $(".tbody").html(html);
+            let page = template("pageTp1", response);
+            $(".pagination").html(page);
+        }
+    });
+    //切换页码方法
+    function changePage(page) {
+        $.ajax({
+            url: "/comments?page=" + page,
+            type: "get",
+            success: function(response) {
+                console.log(response);
+                let html = template("CommentTp1", response);
+                $(".tbody").html(html);
+                let page = template("pageTp1", response);
+                $(".pagination").html(page);
+            }
+        });
+    }
+    //修改评论状态
+    $('.tbody').on("click", ".modify", function() {
+        let state = $(this).attr("data-status");
+        let id = $(this).attr("data-id");
+        $.ajax({
+            url: "/comments/" + id,
+            type: "put",
+            data: JSON.stringify({
+                state: (state == 0 ? 1 : 0),
+            }),
+            contentType: "application/json",
+            success: function(response) {
+                location.reload();
+            }
+        })
+    });
+    //删除评论状态
+    $(".tbody").on("click", ".delete", function() {
+        let id = $(this).attr("data-id");
+        $.ajax({
+            url: "/comments/" + id,
+            type: "delete",
+            contentType: "application/json",
+            success: function(response) {
+                let comment = JSON.parse(response);
+                let index = commentArr.findIndex(item => item._id == comment._id);
+                commentArr.splice(index, 1);
+                let html = template("CommentTp1", {
+                    records: commentArr,
+                });
+                $(".tbody").html(html);
+            }
+        })
+    });
+    //处理时间方法
+    function dateFormat(date) {
+        var timer = new Date(date);
+        // console.log(timer);
+        let year = timer.getFullYear();
+        let month = timer.getMonth() + 1;
+        let day = timer.getDate();
+        let hh = timer.getHours();
+        let mm = timer.getMinutes()
+        let ss = timer.getSeconds();
+        return year + "-" + format(month) + "-" + format(day) + "  " + format(hh) + ":" + format(mm) + ":" + format(ss);
+    }
+
+    function format(e) {
+        return e < 10 ? "0" + e : e;
+    }
+    // <!-- 向服务器端发送请求，获取登录用户信息 -->
+    $.ajax({
+        type: "get",
+        url: "/users/" + userId,
+        success: function(response) {
+            response = JSON.parse(response);
+            if (response.avatar) {
+                $("#avatar1").attr("src", response.avatar);
+            }
+            $("#preview").html(response.nickName)
+        }
+    });
+</script>
+
+</html>

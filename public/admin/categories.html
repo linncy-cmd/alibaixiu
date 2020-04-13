@@ -1,0 +1,309 @@
+<script src="/login/status"></script>
+<script>
+    if (!isLogin) location.href = "login.html"
+</script>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../vendors/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../vendors/nprogress/nprogress.css">
+    <link rel="stylesheet" href="../font/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <script src="../vendors/nprogress/nprogress.js"></script>
+</head>
+
+<body>
+    <div class="main">
+        <nav class="navbar">
+            <button class="btn btn-default navbar-btn fa fa-bars"></button>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><i class="fa fa-user"></i>修改密码</a></li>
+                <li><a href="#" id="logout"><i class="fa fa-sign-out"></i>退出登录</a></li>
+            </ul>
+        </nav>
+        <div class="container-fluid">
+            <div class="page-title">
+                <h1>图片轮播</h1>
+            </div>
+            <div class="row">
+                <form class="col-md-4" id="form">
+                    <p>添加分类</p>
+                    <div class="form-group">
+                        <label for="title">名称</label>
+                        <input id="title" type="text" class="form-control " name="title" placeholder="请输入分类名称">
+                    </div>
+                    <div class="form-group">
+                        <label for="className">图标</label>
+                        <input id="className" type="text" class="form-control " name="className" placeholder="请输入分类图标的类名">
+                    </div>
+                    <button class="btn btn-primary" id="add">添加</button>
+                </form>
+                <div class="col-md-8">
+                    <div class="page-action">
+                        <!-- show when multiple checked -->
+                        <a class="btn btn-danger btn-sm" href="javascript:;" style="display: none" id="deleteMany">批量删除</a>
+                    </div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="success">
+                                <th class="text-center" width='40'>
+                                    <input type="checkbox" id="selectAll">
+                                </th>
+                                <th>名称</th>
+                                <th class="text-center" width="100">操作
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                            <tr class="success">
+                                <th class="text-center" width='40'>
+                                    <input type="checkbox" class="select">
+                                </th>
+                                <th>究竟涅槃</th>
+                                <th class="text-center" width="100">
+                                    <a href="#" class="btn btn-xs btn-primary">添加</a>
+                                    <a href="#" class="btn btn-xs btn-danger">删除</a>
+                                </th>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="aside ">
+        <div class="profile ">
+            <img src="../uploads/avatar.jpg " alt=" " class="avatar" id="avatar1">
+            <h3 class="name text-muted " id="preview">Coder</h3>
+        </div>
+        <ul class="nav ">
+            <li><a href="/admin/index.html"><i class="fa fa-dashboard "></i>仪表盘</a></li>
+            <li>
+                <a href="#menu-post" class="collapse in" data-toggle="collapse">
+                    <i class="fa fa-thumb-tack "></i>文章<i class="fa fa-angle-right "></i>
+                </a>
+                <ul id="menu-post">
+                    <li><a href="/admin/posts.html">所有文章</a></li>
+                    <li><a href="/admin/post-add.html">写文章</a></li>
+                    <li><a href="/admin/categories.html">分类目录</a></li>
+                </ul>
+            </li>
+            <li><a href="/admin/comments.html"><i class="fa fa-comments "></i>评论</a></li>
+            <li><a href="/admin/user.html"><i class="fa fa-users "></i>用户</a></li>
+            <li><a href="#menu-setting" data-toggle="collapse" class="in collapse"><i class="fa fa-cog "></i> 设置<i class="fa fa-angle-right "></i></a>
+                <ul id="menu-setting">
+                    <li><a href="/admin/settings.html">网站设置</a></li>
+                    <li><a href="/admin/selides.html">图片轮播</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</body>
+
+<script src="../css/jquery-1.12.2.min.js "></script>
+<script src="../vendors/bootstrap/js/bootstrap.js "></script>
+<!-- 退出登录 -->
+<script src="../js/logout.js"></script>
+<script src="../vendors/template/template-web.js"></script>
+<!-- 查询分类模板 -->
+<script type="text/html" id="showCategoriesTp1">
+    {{each categories}}
+    <tr class="success">
+        <th class="text-center" width='40'>
+            <input type="checkbox" class="select" data-id="{{@$value._id}}">
+        </th>
+        <th>{{$value.title}}</th>
+        <th class="text-center" width="100">
+            <a href="#" class="btn btn-xs btn-primary modify" data-id="{{@$value._id}}">修改</a>
+            <a href="#" class="btn btn-xs btn-danger delete" data-id="{{@$value._id}}">删除</a>
+        </th>
+    </tr>
+    {{/each}}
+</script>
+<!-- 修改分类模板 -->
+<script type="text/html" id="modifyCategoriesTp1">
+    <p>修改分类</p>
+    <div class="form-group">
+        <label for="title">名称</label>
+        <input id="title" type="text" class="form-control " name="title" placeholder="请输入分类名称" value="{{category.title}}">
+    </div>
+    <div class="form-group">
+        <label for="className">图标</label>
+        <input id="className" type="text" class="form-control " name="className" placeholder="请输入分类图标的类名" value="{{category.className}}">
+    </div>
+    <button class="btn btn-primary" id="modify" data-id="{{category._id}}">修改</button>
+</script>
+<script>
+    $(document).on("ajaxStart", function() {
+        NProgress.start();
+    });
+    $(document).on("ajaxComplete", function() {
+        NProgress.done();
+    });
+    //定义分类条目变量
+    var categoriesArr = [];
+    // 查询分类，初始化界面
+    $.ajax({
+        url: "/categories",
+        type: "get",
+        success: function(response) {
+            categoriesArr = response;
+            // console.log(categoriesArr);
+            render();
+        }
+    });
+    //添加分类功能
+    $("#form").on("click", "#add", function() {
+        let arr = serializeObject($("#form"));
+        $.ajax({
+            url: "/categories",
+            type: "post",
+            data: JSON.stringify(arr),
+            contentType: "application/json",
+            success: function(response) {
+                let category = JSON.parse(response);
+                categoriesArr.push(category);
+                render();
+            },
+            error: function(response) {
+                //刷新界面
+                // location.reload();
+                let result = response.responseJSON;
+                alert(result.message);
+            }
+        })
+        return false;
+    });
+    //修改分类功能
+    //1.查找该分类信息，并渲染到左边表单中
+    $("#tbody").on('click', ".modify", function() {
+        let id = $(this).attr("data-id");
+        $.ajax({
+            url: "/categories/" + id,
+            type: 'get',
+            success: function(response) {
+                let html = template("modifyCategoriesTp1", {
+                    category: response,
+                });
+                $("form").html(html);
+            }
+        })
+    });
+    //2.点击表单修改按钮，提交并接受服务器端返回数据
+    $("#form").on("click", "#modify", function() {
+        let arr = serializeObject($("#form"));
+        let id = $(this).attr("data-id");
+        $.ajax({
+            url: "/categories/" + id,
+            type: "put",
+            data: JSON.stringify(arr),
+            contentType: "application/json",
+            success: function(response) {
+                // let category = JSON.parse(response);
+                // let index = categoriesArr.findIndex(item => item._id == category._id);
+                // categoriesArr[index] = category;
+                // render();
+                location.reload();
+            },
+            error: function(response) {
+                //刷新界面
+                // location.reload();
+                let result = response.responseJSON;
+                alert(result.message);
+            }
+        })
+        return false;
+    });
+    //删除分类功能
+    $("#tbody").on("click", ".delete", function() {
+        let id = $(this).attr("data-id");
+        $.ajax({
+            url: "/categories/" + id,
+            type: "delete",
+            success: function(response) {
+                let result = JSON.parse(response);
+                let index = categoriesArr.findIndex(item => item._id == result._id);
+                categoriesArr.splice(index, 1);
+                render();
+            }
+        })
+    });
+    //批量删除功能
+    //1.监听全选按钮
+    $("#selectAll").on("change", function() {
+        let status = $(this).prop("checked");
+        $("#tbody").find(".select").prop("checked", status);
+        if (status) {
+            $("#deleteMany").css("display", "inline-block");
+        } else {
+            $("#deleteMany").css("display", "none");
+        }
+    });
+    //2.监听单选按钮
+    $("#tbody").on("change", ".select", function() {
+        let selectArr = $("#tbody").find(".select");
+        if (selectArr.filter(":checked").length == selectArr.length) {
+            $("#selectAll").prop("checked", true);
+        } else {
+            $("#selectAll").prop("checked", false);
+        }
+        if (selectArr.filter(":checked").length > 1) {
+            $("#deleteMany").css("display", "inline-block");
+        } else {
+            $("#deleteMany").css("display", "none");
+        }
+    });
+    $("#deleteMany").on("click", function() {
+        let selectAll = $("#tbody").find(".select").filter(":checked");
+        let ids = [];
+        selectAll.each(function(index, element) {
+            ids[index] = $(element).attr("data-id");
+        });
+        $.ajax({
+            url: "/categories/" + ids.join("-"),
+            type: "delete",
+            success: function(response) {
+                for (var element of response) {
+                    let index = categoriesArr.findIndex(item => item._id == element._id);
+                    categoriesArr.splice(index, 1);
+                }
+                render();
+            }
+        });
+    });
+
+    function render() {
+        let html = template("showCategoriesTp1", {
+            categories: categoriesArr,
+        });
+        $("#tbody").html(html);
+    }
+    // <!-- 向服务器端发送请求，获取登录用户信息 -->
+    $.ajax({
+        type: "get",
+        url: "/users/" + userId,
+        success: function(response) {
+            response = JSON.parse(response);
+            if (response.avatar) {
+                $("#avatar1").attr("src", response.avatar);
+            }
+            $("#preview").html(response.nickName)
+        }
+    });
+    //处理表单参数方法
+    function serializeObject(obj) {
+        var params = obj.serializeArray();
+        var result = {};
+        $.each(params, function(index, value) {
+            result[value.name] = value.value;
+        });
+        return result;
+    }
+</script>
+
+</html>

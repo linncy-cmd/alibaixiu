@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./font/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="./vendors/nprogress/nprogress.css">
+    <script src="./vendors/nprogress/nprogress.js"></script>
+</head>
+
+
+<body style="background-color: #eeeeee;">
+    <div class="wrapper">
+        <div class="navBox2">
+            <ul class="topNav">
+
+            </ul>
+        </div>
+        <div class="header">
+            <h1>
+                <a href="#">
+                    <img src="./img/logo_03.jpg" alt="">
+                </a>
+            </h1>
+            <ul class="nav" id="navBox">
+
+            </ul>
+            <div class="form-group clearfix">
+                <form class="search">
+                    <input type="text" placeholder="输入关键字" class="group-control" name="search">
+                    <button class="btn">搜索</button>
+                </form>
+            </div>
+        </div>
+        <div class="slider clearfix">
+            <div class="form-group clearfix">
+                <h4>搜索</h4>
+                <input type="text" placeholder="输入关键字" class="group-control">
+                <button class="btn">搜索</button>
+            </div>
+            <div class="form-group clearfix">
+                <h4>随机推荐</h4>
+                <ul class="random" id="randomBox">
+                </ul>
+            </div>
+            <div class="form-group clearfix">
+                <h4>最新评论</h4>
+                <div id="commentBox"></div>
+            </div>
+        </div>
+        <div class="content">
+            <!-- 文章详情内容展示 -->
+            <div class="pannel article">
+            </div>
+            <!-- 评论表单 -->
+            <div class="comment" id="commentBox1">
+
+            </div>
+            <div class="pannel hosts">
+                <h4>热门推荐</h4>
+                <ul class="list" id="recommendBox">
+                </ul>
+            </div>
+        </div>
+        <div class="footer">
+            <p>© 2016 XIU主题演示 本站主题由 themebetter 提供</p>
+        </div>
+</body>
+<script src="./js/jquery-1.12.2.min.js"></script>
+<script src="./vendors/template/template-web.js"></script>
+<script src="./js/public.js"></script>
+<script src="./js/recommend.js"></script>
+<!-- 文章详情展示模板 -->
+<script type="text/html" id="postTp1">
+    <div class="breakcurm">
+        <dl>
+            <dt>当前位置：</dt>
+            <dd><a href="javascript:;">{{category.title}}</a>></dd>
+            <dd>{{title}}></dd>
+            <dd><a href="#" id="likes"><i class="fa fa-thumbs-up"></i>赞</a></dd>
+        </dl>
+    </div>
+    <h2 class="title">
+        <a href="javascript:;">{{title}}</a>
+    </h2>
+    <div class="meta">
+        <span>{{author.nickName}} 发布于 {{$imports.formateDate(createAt)}}</span>
+        <span>分类: <a href="javascript:;">{{category.title}}</a></span>
+        <span>阅读: ({{meta.views}})</span>
+        <span>评论: ({{meta.comments}})</span>
+    </div>
+    <div>
+        &nbsp;&nbsp;{{content}}
+    </div>
+</script>
+<!-- 评论模板 -->
+<script type="text/html" id="commentTp1">
+    <form id="addComment">
+        <textarea name="comment" id="comment"></textarea>
+        <input type="submit" value="提交评论">
+    </form>
+</script>
+<script>
+    $(document).on("ajaxStart", function() {
+        NProgress.start();
+    });
+    $(document).on("ajaxComplete", function() {
+        NProgress.done();
+    });
+    //获取传过来的参数，其中getUrlParams为自定义方法，在public.js里
+    var id = getUrlParams("id");
+    var state;
+    //获取文章详细信息
+    $.ajax({
+        url: "/posts/" + id,
+        type: "get",
+        success: function(response) {
+            console.log(response);
+            let html = template("postTp1", response);
+            $(".article").html(html);
+        }
+    });
+    //换取网站是否开启评论功能
+    $.ajax({
+        url: "/settings",
+        type: "get",
+        success: function(response) {
+            // console.log(response);
+            if (response.comment) {
+                let html = template("commentTp1", {});
+                state = response.review;
+                $("#commentBox1").html(html);
+
+            }
+        }
+    });
+    //添加评论
+    $("#commentBox1").on("submit", "#addComment", function() {
+        let comment = $("#comment").val();
+        console.log(state);
+        $.ajax({
+            url: "/comments",
+            type: "post",
+            data: JSON.stringify({
+                content: comment,
+                state: state ? 0 : 1,
+                post: id,
+            }),
+            contentType: "application/json",
+            success: function(response) {
+                renderComment();
+            },
+            error: function(response) {
+                if (response.responseJSON.message == "请登录") {
+                    alert("请先登录")
+                }
+                console.log(response.responseJSON.message);
+            }
+        });
+        return false;
+    });
+    //点赞功能
+    $(".article").on("click", "#likes", function() {
+        $.ajax({
+            url: "/posts/fabulous/" + id,
+            type: "put",
+            success: function(response) {
+                console.log(response);
+                alert("点赞成功");
+            }
+        })
+    })
+</script>
+
+</html>

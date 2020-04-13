@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in &laquo; Admin</title>
+    <link rel="stylesheet" href="../vendors/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/admin.css">
+
+</head>
+
+<body>
+    <div class="login">
+        <div class="login-wrap">
+            <img src="../img/default.png" alt="">
+            <div class="form-group">
+                <!-- sr-only类是为残疾人设计的，对于普通人来说没有明显效果 -->
+                <label for="email" class="sr-only">邮箱</label>
+                <input id="email" type="email" class="form-control" placeholder="邮箱" autofocus>
+            </div>
+            <div class="form-group">
+                <label for="password" class="sr-only">密码</label>
+                <input id="password" type="password" class="form-control" placeholder="密码">
+            </div>
+            <button class="btn btn-primary btn-block" id="loginBtn">登录</button>
+
+        </div>
+    </div>
+</body>
+<script src="../js/jquery-1.12.2.min.js"></script>
+<script type="text/javascript">
+    // 选择登录按钮并为其添加点击事件
+    $('#loginBtn').on('click', function() {
+        // 获取用户输入的邮箱地址
+        var email = $('#email').val();
+        // 获取用户输入的密码
+        var password = $('#password').val();
+        // 判断用户是否输入了邮箱地址
+        if (email.trim().length == 0) {
+            alert('请输入邮箱')
+            return;
+        }
+        // 判断用户是否输入了密码
+        if (password.trim().length == 0) {
+            alert('请输入密码');
+            return;
+        }
+
+        $.ajax({
+            type: 'post',
+            url: '/login',
+            data: JSON.stringify({
+                email: email,
+                password: password
+            }),
+            contentType: "application/json",
+            success: function(response) {
+                // 对用户的角色进行判断 如果是管理员就跳转到数据管理的首页面
+                // 如果是普通用户 就跳转到网站的首页面
+                let res = JSON.parse(response);
+                if (res.role == 'admin') {
+                    // 登录成功 跳转到数据管理的首页面
+                    location.href = '/admin/index.html';
+                } else {
+                    location.href = '/index.html';
+                }
+
+            },
+            error: function(e) {
+                console.log(e);
+                // 登录失败
+                alert(e.responseJSON.message)
+            }
+        })
+        return false
+    });
+</script>
+
+</html>

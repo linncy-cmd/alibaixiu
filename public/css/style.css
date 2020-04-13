@@ -1,0 +1,517 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit
+}
+
+.wrapper {
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+.header {
+    position: fixed;
+    width: 190px;
+    height: 100%;
+    background-color: #fff;
+}
+
+.header .nav {
+    border-bottom: 1px solid #eeeeee;
+}
+
+.header .nav li {
+    height: 42px;
+    line-height: 42px;
+    padding-left: 25px;
+}
+
+.header .nav li i {
+    width: 16px;
+    margin-right: 15px;
+}
+
+.header .nav li a {
+    color: #666666;
+}
+
+.header .form-group {
+    padding: 30px 0 30px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.header .form-group input,
+.slider .form-group input {
+    width: 112px;
+    height: 32px;
+    border: 2px solid #eee;
+    float: left;
+    padding-left: 10px;
+    box-sizing: border-box;
+}
+
+.header .form-group .btn,
+.slider .form-group .btn {
+    background-color: red;
+    height: 34px;
+    line-height: 34px;
+    float: left;
+    padding: 0 12px;
+    border: 0;
+    color: #fff;
+}
+
+.slider {
+    float: right;
+    z-index: 10;
+    margin: 20px;
+    width: 280px;
+    height: 100%;
+}
+
+.slider .form-group {
+    padding: 16px;
+    margin-bottom: 20px;
+    background-color: #fff;
+}
+
+.slider .form-group h4 {
+    font-size: 20px;
+    margin-bottom: 18px;
+}
+
+.slider .random li {
+    margin-top: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #eee;
+}
+
+.slider .random li:last-child {
+    padding: 0;
+    border: 0;
+}
+
+.slider .random .title {
+    width: 160px;
+    font-size: 14px;
+    color: #000;
+}
+
+.slider .random .reading {
+    font-size: 12px;
+    color: #999999;
+}
+
+.slider .random p {
+    float: left;
+    clear: both;
+}
+
+.slider .random .pic {
+    width: 70px;
+    height: 100%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.slider .pic img {
+    width: 100%;
+    height: 100%;
+}
+
+.slider .commons {
+    padding: 15px 0;
+    border-bottom: 1px solid #999;
+}
+
+.slider .form-group .commons:last-child {
+    border: 0;
+}
+
+.slider .commons .avatar {
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    float: left;
+    border-radius: 50%;
+    border: 1px solid #000;
+}
+
+.slider .avatar img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.slider .commons .txt {
+    padding-left: 50px;
+}
+
+.slider .txt p {
+    font-size: 12px;
+}
+
+.slider .txt p:nth-child(2) {
+    margin-top: 8px;
+    color: #999;
+}
+
+.content {
+    padding: 20px;
+    margin: 0 300px 0px 190px;
+}
+
+.content .pannel {
+    background-color: #fff;
+    padding: 25px 20px;
+}
+
+.content .hosts {
+    margin: 20px 0px;
+}
+
+.content .pannel .list {
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.content .pannel .list li {
+    width: 23.5%;
+    background-color: #fff;
+    float: left;
+    font-size: 14px;
+    padding-right: 2%;
+}
+
+.content .pannel .list li:last-child {
+    padding-right: 0;
+}
+
+.content .pannel .list a:hover {
+    color: red;
+}
+
+.content .pannel .list li img {
+    width: 100%;
+    height: 133px;
+}
+
+.content .pannel .entry {
+    padding-top: 22px;
+    padding-bottom: 58px;
+    border-bottom: 1px solid #999;
+}
+
+.content .pannel .entry:last-child {
+    border: 0;
+}
+
+
+/* detail.html */
+
+.content .article {
+    padding-top: 20px;
+}
+
+.content .pannel .breakcurm dd,
+.content .pannel .breakcurm dt,
+.content .article .meta {
+    display: inline-block;
+    color: #999;
+    font-size: 12px;
+}
+
+.content .article .meta {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.pannel .breakcurm dd a {
+    color: inherit
+}
+
+.pannel .breakcurm dd a:hover {
+    color: red
+}
+
+.content .article .title {
+    margin: 20px 0px;
+}
+
+.content .article .content h4 {
+    font-size: 20px;
+}
+
+.content .comment textarea {
+    display: block;
+    width: 100%;
+    height: 80px;
+    margin: 20px 0px 10px
+}
+
+.content .comment input {
+    padding: 5px 30px;
+}
+
+.content .entry h4 {
+    height: 24px;
+    line-height: 24px;
+    font-size: 22px;
+    padding-left: 66px;
+}
+
+.content .sort {
+    display: inline-block;
+    width: 56px;
+    height: 24px;
+    background-color: red;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+    line-height: 24px;
+    opacity: 0.5;
+    float: left;
+    position: relative;
+}
+
+.content .sort:after {
+    content: "";
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    line-height: 0;
+    right: -16px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 8px solid transparent;
+    border-left-color: red;
+}
+
+.content .entry .title {
+    margin: 10px 0;
+    font-size: 12px;
+    color: #999;
+}
+
+.content .entry .main {
+    border-bottom: 1px solid #9999;
+    overflow: hidden;
+}
+
+.content .entry .main p {
+    width: 75%;
+    float: left;
+    font-size: 14px;
+    line-height: 22px;
+    color: #999;
+}
+
+.content .entry .main p a {
+    color: inherit;
+}
+
+.content .entry .main p.brief {
+    color: #666666
+}
+
+.content .entry .main p a:hover {
+    color: red;
+}
+
+.content .entry .thumb {
+    width: 20%;
+    margin-left: 5%;
+    display: inline-block;
+}
+
+.content .entry .thumb img {
+    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+
+/* index.html */
+
+.content .swiper-container {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+}
+
+.swiper-container:hover .swiper-button-next {
+    display: inline-block;
+    opacity: 0.5;
+}
+
+.swiper-container:hover .swiper-button-prev {
+    display: inline-block;
+    opacity: 0.5;
+}
+
+.swiper-container .swiper-wrapper {
+    overflow: hidden;
+    width: 200%;
+}
+
+.swiper-wrapper .swiper-slide {
+    width: 50%;
+    float: left;
+    /* //防止swipe插件轮播出现空白页 */
+    position: relative;
+}
+
+.swiper-wrapper .swiper-slide img {
+    width: 100%;
+    max-width: 100%;
+    max-height: 320px;
+}
+
+.swiper-wrapper .swiper-slide .slide_banner {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+    background-color: #000;
+    color: #fff;
+    font-weight: 700;
+    padding-left: 94px;
+}
+
+.swiper-container .swiper-pagination {
+    position: absolute;
+    right: 15px;
+    bottom: 9px;
+    text-align: right;
+}
+
+.swiper-pagination .swiper-pagination-bullet {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border: 2px solid yellow;
+    border-radius: 50%;
+}
+
+.swiper-pagination .swiper-pagination-bullet.active {
+    background-color: #fff;
+}
+
+.swiper-container .swiper-button-next,
+.swiper-container .swiper-button-prev {
+    position: absolute;
+    display: none;
+    width: 50px;
+    height: 62px;
+    background-color: #000;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    line-height: 62px;
+    opacity: 0;
+    transition: opacity .3s;
+}
+
+.swiper-container .swiper-button-next {
+    right: 0px;
+}
+
+.swiper-container .swiper-button-prev {
+    left: 0px;
+}
+
+.swiper-container .swiper-button-next i,
+.swiper-container .swiper-button-prev i {
+    font-size: 36px;
+    font-weight: 700;
+    color: #fff;
+}
+
+
+/* <结束> */
+
+.footer {
+    padding: 0 25px 20px;
+    margin-left: 190px;
+    position: relative;
+    clear: both;
+    font-size: 12px;
+    color: #999
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+.clearfix::after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.navBox2 {
+    display: none;
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-bottom: 1px solid #CCC;
+}
+
+.topNav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    overflow: hidden;
+}
+
+.topNav li {
+    float: left;
+}
+
+.topNav li a {
+    display: inline-block;
+    padding: 0 10px 0 12px;
+    color: #666;
+    font-size: 14px;
+    border-left: 1px solid #CCC;
+}
+
+
+/* 响应式布局 */
+
+@media screen and (max-width: 1024px) {
+    .content {
+        margin-right: 0;
+    }
+    .slider {
+        display: none;
+    }
+}
+
+@media screen and (max-width:768px) {
+    .content {
+        margin-left: 0px;
+        padding: 0;
+    }
+    .header {
+        display: none;
+    }
+    .navBox2 {
+        display: inline-block;
+    }
+}

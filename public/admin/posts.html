@@ -1,0 +1,271 @@
+<script src="/login/status"></script>
+<script>
+    if (!isLogin) location.href = "login.html"
+</script>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../vendors/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../vendors/nprogress/nprogress.css">
+    <link rel="stylesheet" href="../font/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <script src="../vendors/nprogress/nprogress.js"></script>
+</head>
+
+<body>
+    <div class="main">
+        <nav class="navbar">
+            <button class="btn btn-default navbar-btn fa fa-bars"></button>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><i class="fa fa-user"></i>修改密码</a></li>
+                <li><a href="#" id="logout"><i class="fa fa-sign-out"></i>退出登录</a></li>
+            </ul>
+        </nav>
+        <div class="container-fluid">
+            <div class="page-title">
+                <h1>所有文章</h1>
+                <a href="/admin/post-add.html" class="btn btn-primary btn-xs" id="write">写文章</a>
+            </div>
+            <div class="page-action">
+                <form class="form-inline" id="screenForm">
+                    <div class="form-group">
+                        <!-- <label for="exampleInputName2">Name</label> -->
+                        <select class="form-control input-sm" id="category" name="category">
+                            <option value="">所有分类</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <!-- <label for="exampleInputEmail2">Email</label> -->
+                        <select class="form-control input-sm" id="exampleInputEmail2" name="status">
+                        <option value="0">草稿</option>
+                        <option value="1">已发布</option>
+                    </select>
+                    </div>
+                    <button type="submit" class="btn btn-default input-sm">筛选</button>
+                </form>
+                <ul class="pagination pagination-sm pull-right" id="page">
+
+                </ul>
+            </div>
+            <div class="show">
+                <table class="table table-hover table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>标题</th>
+                            <th>作者</th>
+                            <th>分类</th>
+                            <th class="text-center">发布时间</th>
+                            <th class="text-center">状态</th>
+                            <th class="text-center" width="100">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                        <tr>
+                            <th>标题</th>
+                            <th>作者</th>
+                            <th>分类</th>
+                            <th class="text-center">发布时间</th>
+                            <th class="text-center">状态</th>
+                            <th class="text-center" width="100">操作</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="aside ">
+        <div class="profile ">
+            <img src="../uploads/avatar.jpg " alt=" " class="avatar" id="avatar1">
+            <h3 class="name text-muted " id="preview">Coder</h3>
+        </div>
+        <ul class="nav ">
+            <li><a href="/admin/index.html"><i class="fa fa-dashboard "></i>仪表盘</a></li>
+            <li>
+                <a href="#menu-post" class="collapse in" data-toggle="collapse">
+                    <i class="fa fa-thumb-tack "></i>文章<i class="fa fa-angle-right "></i>
+                </a>
+                <ul id="menu-post">
+                    <li><a href="/admin/posts.html">所有文章</a></li>
+                    <li><a href="/admin/post-add.html">写文章</a></li>
+                    <li><a href="/admin/categories.html">分类目录</a></li>
+                </ul>
+            </li>
+            <li><a href="/admin/comments.html"><i class="fa fa-comments "></i>评论</a></li>
+            <li><a href="/admin/user.html"><i class="fa fa-users "></i>用户</a></li>
+            <li><a href="#menu-setting" data-toggle="collapse" class="in collapse"><i class="fa fa-cog "></i> 设置<i class="fa fa-angle-right "></i></a>
+                <ul id="menu-setting">
+                    <li><a href="/admin/settings.html">网站设置</a></li>
+                    <li><a href="/admin/selides.html">图片轮播</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</body>
+<script src="../css/jquery-1.12.2.min.js "></script>
+<script src="../vendors/bootstrap/js/bootstrap.js "></script>
+<!-- 退出登录 -->
+<script src="../js/logout.js"></script>
+<!-- 模板引擎 -->
+<script src="../vendors/template/template-web.js"></script>
+<!-- 文章详细信息展示模板 -->
+<script type="text/html" id="showPostTp1">
+    {{each posts}}
+    <tr>
+        <th>{{$value.title}}</th>
+        <th>{{$value.author.nickName}}</th>
+        <th>{{$value.category.title}}</th>
+        <th class="text-center">{{dateformat($value.createAt)}}</th>
+        <th class="text-center">{{$value.state == 0 ? "草稿":"已发布"}}</th>
+        <th class="text-center" width="100">
+            <a href="/admin/post-add.html?id={{@ $value._id}}" class="btn btn-primary btn-xs modify" data-id="{{@ $value._id}}">修改</a>
+            <a href="#" class="btn btn-danger btn-xs delete" data-id="{{@ $value._id}}">删除</a>
+        </th>
+    </tr>
+    {{/each}}
+</script>
+<!-- 页码展示模板 -->
+<script type="text/html" id="pageTp1">
+    <li style='display:{{posts.page-0-1<1 ? "none":"inline"}}'><a href="#" data-page="<%=posts.page-0-1%>" class="pages">&laquo;</a></li>
+    <% for (var i = 1; i <= posts.pages; i++) { %>
+        <li><a href="#" data-page="<%=i%>" class="pages">{{i}}</a></li>
+        <% } %>
+            <li style='display:{{posts.page-0+1>posts.pages ? " none ":"inline "}}'><a href="#" data-page="<%=posts.page-0+1%>" class="pages">&raquo;</a></li>
+</script>
+<!-- 分类内容展示模板 -->
+<script type="text/html" id="categoryTp1">
+    {{each date}}
+    <option value="{{@$value._id}}">{{$value.title}}</option>
+    {{/each}}
+</script>
+<script>
+    $(document).on("ajaxStart", function() {
+        NProgress.start();
+    });
+    $(document).on("ajaxComplete", function() {
+        NProgress.done();
+    });
+    var postArr = [];
+    //向模板传递函数
+    template.defaults.imports.dateformat = dateFormat;
+    //初始化界面
+    $.ajax({
+        url: "/posts",
+        type: "get",
+        success: function(response) {
+            // console.log(response);
+            postArr = response.records;
+            render();
+            let pages = template("pageTp1", {
+                posts: response
+            });
+            $(".pagination").html(pages);
+
+        }
+    });
+    //监听页码点击
+    $(".pagination").on("click", ".pages", function() {
+        let page = $(this).attr("data-page");
+        //初始化界面
+        $.ajax({
+            url: "/posts?page=" + page,
+            type: "get",
+            success: function(response) {
+                // console.log(response);
+                postArr = response.records;
+                render();
+                let pages = template("pageTp1", {
+                    posts: response
+                });
+                $(".pagination").html(pages);
+
+            }
+        });
+    });
+    //分类展示渲染
+    $.ajax({
+        url: "/categories",
+        type: "get",
+        success: function(response) {
+            let html = template("categoryTp1", {
+                date: response,
+            });
+            $("#category").html(html);
+        }
+    });
+    //监听筛选表单
+    $("#screenForm").on("submit", function() {
+        let dateformat = $(this).serialize();
+        $.ajax({
+            url: "/posts",
+            type: "get",
+            data: dateformat,
+            success: function(response) {
+                console.log(response)
+                postArr = response.records;
+                render();
+                let pages = template("pageTp1", {
+                    posts: response
+                });
+                $(".pagination").html(pages);
+            },
+        });
+        return false;
+    });
+    $("#tbody").on("click", ".delete", function(response) {
+        if (confirm("你真要删除该文章吗？")) {
+            let id = $(this).attr("data-id");
+            $.ajax({
+                url: "/posts/" + id,
+                type: "delete",
+                contentType: "application/json",
+                success: function(response) {
+                    let post = JSON.parse(response);
+                    let index = postArr.findIndex(item => item._id == post._id);
+                    postArr.splice(index, 1);
+                    render();
+                }
+            })
+        }
+    });
+    //处理时间方法
+    function dateFormat(date) {
+        var timer = new Date(date);
+        // console.log(timer);
+        let year = timer.getFullYear();
+        let month = timer.getMonth() + 1;
+        let day = timer.getDate();
+        let hh = timer.getHours();
+        let mm = timer.getMinutes()
+        let ss = timer.getSeconds();
+        return year + "-" + format(month) + "-" + format(day) + "  " + format(hh) + ":" + format(mm) + ":" + format(ss);
+    }
+
+    function format(e) {
+        return e < 10 ? "0" + e : e;
+    }
+    //渲染界面
+    function render() {
+        let html = template("showPostTp1", {
+            posts: postArr
+        });
+        $("#tbody").html(html);
+    }
+    // <!-- 向服务器端发送请求，获取登录用户信息 -->
+    $.ajax({
+        type: "get",
+        url: "/users/" + userId,
+        success: function(response) {
+            response = JSON.parse(response);
+            if (response.avatar) {
+                $("#avatar1").attr("src", response.avatar);
+            }
+            $("#preview").html(response.nickName)
+        }
+    });
+</script>
+
+</html>

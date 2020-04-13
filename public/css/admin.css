@@ -1,0 +1,243 @@
+/* .nprogress-busy {
+    cursor: wait;
+}
+
+.form-control {
+    box-shadow: none;
+}
+
+.form-control:focus {
+    border-color: rgba(102, 175, 233, .8);
+    box-shadow: 0 0 0 2px rgba(102, 175, 233, .4);
+}
+
+body {
+    background-color: #f8f9fb;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+} */
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+/* //登陆界面 */
+
+.login {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: #2f4050;
+}
+
+.login-wrap {
+    width: 382px;
+    height: 272px;
+    margin: 180px auto;
+    position: relative;
+    padding: 100px 40px 40px;
+    background-color: #fff;
+}
+
+.login-wrap img {
+    width: 144px;
+    height: 144px;
+    border-radius: 50%;
+    position: absolute;
+    top: -72px;
+    left: 120px;
+}
+
+
+/* 登陆界面结束 */
+
+
+/* ----------------- */
+
+.main {
+    position: relative;
+    overflow: hidden;
+    min-width: 844px;
+    min-height: 100vh;
+    padding: 70px 5px 20px 185px;
+    background-color: #f8f9fb;
+}
+
+.main .navbar {
+    position: fixed;
+    z-index: 100;
+    left: 180px;
+    top: 0px;
+    right: 0px;
+    background-color: #fff;
+    padding: 0px 15px 0px 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.main .navbar i {
+    margin-right: 4px;
+    font-size: .8em;
+}
+
+.main .page-title {
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.main .page-title h1 {
+    display: inline-block;
+    font-size: 24px;
+    margin: 0;
+    font-weight: 400;
+}
+
+.main .page-action {
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.main .pagination {
+    margin: 0;
+}
+
+.main .thumbnail {
+    min-width: 100%;
+}
+
+
+/* user.html */
+
+.main .form-label img {
+    max-width: 150px;
+}
+
+.main .form-label {
+    position: relative;
+}
+
+.main .form-label .fa-upload {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    font-size: 30px;
+    text-align: center;
+    background-color: #eee;
+    opacity: 0;
+    transition: opacity .2s;
+}
+
+.main .form-label i:before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -14px;
+    margin-left: -14px;
+}
+
+.main .form-label:hover i {
+    opacity: 0.6;
+}
+
+
+/* selides.html */
+
+.main .slide {
+    width: auto;
+    max-height: 80px;
+}
+
+.main .container-fluid tbody td {
+    vertical-align: middle;
+}
+
+.main .container-fluid .btn-primary {
+    vertical-align: bottom;
+}
+
+
+/* post.html */
+
+.main .show .table {
+    background-color: #fff;
+}
+
+.navbar .navbar-btn {
+    border: 0px;
+    padding: 10px 12px;
+    color: #000;
+}
+
+.aside {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 180px;
+    height: 100%;
+    background-color: #243443;
+}
+
+.aside .profile {
+    padding: 25px;
+    text-align: center;
+    background-color: #000;
+}
+
+.profile .avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid #65717b;
+}
+
+.profile .name {
+    font-size: 16px;
+}
+
+.aside .nav a {
+    display: block;
+    padding: 10px 20px;
+    color: #a9b0c2;
+}
+
+.aside .nav .active>a {
+    color: #f6f6f6;
+    background-color: #243443;
+}
+
+.aside .nav li a:hover,
+.aside .nav a:focus {
+    background-color: #000;
+    color: #fff;
+}
+
+.aside .nav li i {
+    width: 14px;
+    margin-right: 10px;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.aside .nav li .fa-angle-right {
+    transition: transform .2s;
+    transform: rotate(90deg);
+    float: right;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.aside .nav .collapsed .fa-angle-right {
+    float: right;
+    transform: rotate(0);
+}
+
+.mask {
+    max-width: 150px;
+    margin-left: 15px;
+}

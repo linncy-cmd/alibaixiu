@@ -1,0 +1,300 @@
+<script src="/login/status"></script>
+<script>
+    if (!isLogin) location.href = "login.html"
+</script>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../vendors/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../vendors/nprogress/nprogress.css">
+    <link rel="stylesheet" href="../font/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <script src="../vendors/nprogress/nprogress.js"></script>
+</head>
+
+
+<body>
+    <div class="main">
+        <nav class="navbar">
+            <button class="btn btn-default navbar-btn fa fa-bars"></button>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><i class="fa fa-user"></i>修改密码</a></li>
+                <li><a href="#" id="logout"><i class="fa fa-sign-out"></i>退出登录</a></li>
+            </ul>
+        </nav>
+        <div class="container-fluid">
+            <div class="page-title">
+                <h1>图片轮播</h1>
+            </div>
+            <div class="row">
+                <div id="formBox">
+                    <form class="col-md-4" id="form">
+                        <p>添加新轮播内容</p>
+                        <div class="form-group">
+                            <label for="file">图片</label>
+                            <input type="file" id="file" class="form-control">
+                            <img class="help-block thumbnail" style="display: none;height: 200px;;" id="thumbnail">
+                            <input type="hidden" name="images" id="avatar">
+                        </div>
+                        <div class="form-group">
+                            <label for="text">标题</label>
+                            <input type="text" class="form-control " id="text" placeholder="标题" name="title">
+                        </div>
+                        <div class="form-group">
+                            <label for="link">链接</label>
+                            <input type="text" class="form-control " id="link" placeholder="某文章Id" name="link">
+                        </div>
+                        <button class="btn btn-primary">添加</button>
+                    </form>
+                </div>
+
+                <div class="col-md-8">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="success">
+                                <th class="text-center">图片</th>
+                                <th>文本</th>
+                                <th>链接</th>
+                                <th class="text-center" width="100">操作
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="tbody">
+                            <tr>
+                                <td class="text-center">
+                                    <!-- //自定义类slide -->
+                                    <img class="slide" src="../uploads/slide_1.jpg" alt="">
+                                </td>
+                                <td>文本</td>
+                                <td>链接</td>
+                                <td class="text-center" width="100">
+                                    <input type="button" class="btn btn-danger btn-xs" value="删除">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">
+                                    <!-- //自定义类slide -->
+                                    <img class="slide" src="../uploads/slide_2.jpg" alt="">
+                                </td>
+                                <td>文本</td>
+                                <td>链接</td>
+                                <td class="text-center" width="100">
+                                    <input type="button" class="btn btn-danger btn-xs" value="删除">
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="aside ">
+        <div class="profile ">
+            <img src="../uploads/avatar.jpg " alt=" " class="avatar" id="avatar1">
+            <h3 class="name text-muted " id="preview">Coder</h3>
+        </div>
+        <ul class="nav ">
+            <li><a href="/admin/index.html"><i class="fa fa-dashboard "></i>仪表盘</a></li>
+            <li>
+                <a href="#menu-post" class="collapse in" data-toggle="collapse">
+                    <i class="fa fa-thumb-tack "></i>文章<i class="fa fa-angle-right "></i>
+                </a>
+                <ul id="menu-post">
+                    <li><a href="/admin/posts.html">所有文章</a></li>
+                    <li><a href="/admin/post-add.html">写文章</a></li>
+                    <li><a href="/admin/categories.html">分类目录</a></li>
+                </ul>
+            </li>
+            <li><a href="/admin/comments.html"><i class="fa fa-comments "></i>评论</a></li>
+            <li><a href="/admin/user.html"><i class="fa fa-users "></i>用户</a></li>
+            <li><a href="#menu-setting" data-toggle="collapse" class="in collapse"><i class="fa fa-cog "></i> 设置<i class="fa fa-angle-right "></i></a>
+                <ul id="menu-setting">
+                    <li><a href="/admin/settings.html">网站设置</a></li>
+                    <li><a href="/admin/selides.html">图片轮播</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</body>
+
+<script src="../css/jquery-1.12.2.min.js "></script>
+<script src="../vendors/bootstrap/js/bootstrap.js "></script>
+<!-- 退出登录 -->
+<script src="../js/logout.js"></script>
+<!-- 导入模板引擎 -->
+<script src="../vendors/template/template-web.js"></script>
+<!-- 右边数据初始化渲染模板 -->
+<script type="text/html" id="selidesTp1">
+    {{each records}}
+    <tr>
+        <td class="text-center">
+            <!-- //自定义类slide -->
+            <img class="slide" src="{{$value.images}}" alt="">
+        </td>
+        <td>{{$value.title}}</td>
+        <td>{{$value.link}}</td>
+        <td class="text-center" width="100">
+            <input type="button" class="btn btn-primary btn-xs modify" value="修改" data-id="{{$value._id}}">
+            <input type="button" class="btn btn-danger btn-xs delete" value="删除" data-id="{{$value._id}}">
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<!-- 左边修改界面模板 -->
+<script type="text/html" id="modifySelideTp1">
+    <form class="col-md-4" id="modifyForm">
+        <p>修改轮播内容</p>
+        <div class="form-group">
+            <label for="file">图片</label>
+            <input type="file" id="file" class="form-control">
+            <img class="help-block thumbnail" src="{{images}}" style="height: 200px;;" id="thumbnail">
+            <input type="hidden" name="images" id="avatar" value="{{images}}">
+        </div>
+        <div class="form-group">
+            <label for="text">标题</label>
+            <input type="text" class="form-control " id="text" placeholder="标题" name="title" value="{{title}}">
+        </div>
+        <div class="form-group">
+            <label for="link">链接</label>
+            <input type="text" class="form-control " id="link" placeholder="某文章Id" name="link" value="{{link}}">
+        </div>
+        <button class="btn btn-primary" data-id="{{_id}}" id="modify">修改</button>
+    </form>
+</script>
+<script>
+    $(document).on("ajaxStart", function() {
+        NProgress.start();
+    });
+    $(document).on("ajaxComplete", function() {
+        NProgress.done();
+    });
+    //初始化页面
+    $.ajax({
+        url: "/selides",
+        type: "get",
+        success: function(response) {
+            let html = template("selidesTp1", response);
+            $(".tbody").html(html);
+        }
+    });
+    //监听上传图片
+    $("#formBox").on("change", "#file", function() {
+        let formDate = new FormData();
+        formDate.append("attrName", this.files[0]);
+        $.ajax({
+            url: "/selides/upload",
+            type: "post",
+            data: formDate,
+            processData: false, //不处理数据
+            contentType: false, //不设置内容类型
+            success: function(response) {
+                $("#thumbnail").attr("src", response);
+                $("#thumbnail").css("display", "block");
+                $("#avatar").attr("value", response);
+
+            }
+        })
+    });
+    //监听表单上传
+    $("#formBox").on("submit", "#form", function() {
+        let data = serializeObject($(this));
+        console.log(data);
+        $.ajax({
+            url: "/selides",
+            type: "post",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            success: function(response) {
+                location.reload();
+            },
+            error: function(response) {
+                let err = response.responseJSON
+                console.log(err)
+                alert(err.message);
+            }
+        });
+        return false;
+    });
+    //修改分类功能
+    //1.查找该分类信息，并渲染到左边表单中
+    $(".tbody").on('click', ".modify", function() {
+        let id = $(this).attr("data-id");
+        // console.log(id);
+        $.ajax({
+            url: "/selides/" + id,
+            type: 'get',
+            success: function(response) {
+                console.log(response);
+                let html = template("modifySelideTp1", response);
+                $("#formBox").html(html);
+            }
+        })
+    });
+    //2.点击表单修改按钮，提交并接受服务器端返回数据
+    $("#formBox").on("submit", "#modifyForm", function() {
+        let arr = serializeObject($(this));
+        let id = $("#modify").attr("data-id");
+        $.ajax({
+            url: "/selides/" + id,
+            type: "put",
+            data: JSON.stringify(arr),
+            contentType: "application/json",
+            success: function(response) {
+                // let category = JSON.parse(response);
+                // let index = categoriesArr.findIndex(item => item._id == category._id);
+                // categoriesArr[index] = category;
+                // render();
+                location.reload();
+            },
+            error: function(response) {
+                //刷新界面
+                // location.reload();
+                let result = response.responseJSON;
+                alert(result.message);
+            }
+        })
+        return false;
+    });
+    //监听删除按钮
+    $(".tbody").on('click', ".delete", function() {
+        if (confirm("你真要删除该文章吗？")) {
+            let id = $(this).attr("data-id");
+            $.ajax({
+                url: "/selides/" + id,
+                type: "delete",
+                contentType: "application/json",
+                success: function(response) {
+                    location.reload();
+                }
+            })
+        }
+    });
+    // <!-- 向服务器端发送请求，获取登录用户信息 -->
+    $.ajax({
+        type: "get",
+        url: "/users/" + userId,
+        success: function(response) {
+            response = JSON.parse(response);
+            if (response.avatar) {
+                $("#avatar1").attr("src", response.avatar);
+            }
+            $("#preview").html(response.nickName)
+        }
+    });
+    //处理表单参数方法
+    function serializeObject(obj) {
+        var params = obj.serializeArray();
+        var result = {};
+        $.each(params, function(index, value) {
+            result[value.name] = value.value;
+        });
+        return result;
+    }
+</script>
+
+</html>

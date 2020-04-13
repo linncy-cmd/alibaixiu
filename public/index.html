@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./font/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="./vendors/nprogress/nprogress.css">
+    <script src="./vendors/nprogress/nprogress.js"></script>
+</head>
+
+
+<body style="background-color: #eeeeee;">
+    <div class="wrapper">
+        <div class="navBox2">
+            <ul class="topNav">
+            </ul>
+        </div>
+        <div class="header">
+            <h1>
+                <a href="#">
+                    <img src="./img/logo_03.jpg" alt="">
+                </a>
+            </h1>
+            <!-- 分类展示 -->
+            <ul class="nav" id="navBox">
+            </ul>
+            <div class="form-group clearfix">
+                <form class="search">
+                    <input type="text" placeholder="输入关键字" class="group-control" name="search">
+                    <button class="btn">搜索</button>
+                </form>
+
+            </div>
+        </div>
+
+        <div class="slider clearfix">
+            <div class="form-group clearfix">
+                <h4>搜索</h4>
+                <input type="text" placeholder="输入关键字" class="group-control">
+                <button class="btn">搜索</button>
+            </div>
+            <div class="form-group clearfix">
+                <h4>随机推荐</h4>
+                <!-- 随机推荐 -->
+                <ul class="random" id="randomBox">
+                </ul>
+            </div>
+            <div class="form-group clearfix">
+                <h4>最新评论</h4>
+                <!-- 最新评论 -->
+                <div id="commentBox"></div>
+            </div>
+        </div>
+        <div class="content">
+            <!-- swiper插件 -->
+            <div class="swiper-container" id="slider">
+                <ul class="swiper-wrapper">
+                </ul>
+                <!-- Add Pagination -->
+                <ul class="swiper-pagination">
+                    <li class="swiper-pagination-bullet active"></li>
+                    <li class="swiper-pagination-bullet"></li>
+                    <li class="swiper-pagination-bullet"></li>
+                    <li class="swiper-pagination-bullet"></li>
+                </ul>
+
+                <!-- Add Arrows -->
+                <div class="swiper-button-next">
+                    <i class="fa fa-angle-right"></i>
+                </div>
+                <div class="swiper-button-prev">
+                    <i class="fa fa-angle-left"></i>
+                </div>
+            </div>
+            <div class="pannel hosts">
+                <h4>热门推荐</h4>
+                <!-- 热门推荐 -->
+                <ul class="list" id="recommendBox">
+                </ul>
+            </div>
+            <div class="pannel hosts">
+                <h4>最新发布</h4>
+                <div id="lasted"></div>
+            </div>
+        </div>
+        <div class="footer">
+            <p>© 2016 XIU主题演示 本站主题由 themebetter 提供</p>
+        </div>
+</body>
+<script src="./css/jquery-1.12.2.min.js"></script>
+<!-- 引入轮播图插件 -->
+<script src="./vendors/swiper/swipe.js"></script>
+<!-- 引入模板引擎 -->
+<script src="./vendors/template/template-web.js"></script>
+<!-- 热门推荐 -->
+<script src="./js/recommend.js"></script>
+<script src="./js/public.js"></script>
+<!-- 轮播图模板 -->
+<script type="text/html" id="swipeTp1">
+    {{each data}}
+    <li class="swiper-slide">
+        <a href="detail.html?{{$value.link}}">
+            <img src="{{$value.images}}" alt="">
+        </a>
+        <p class="slide_banner">{{$value.title}}</p>
+    </li>
+    {{/each}}
+</script>
+<!-- 最新发布模板 -->
+<script type="text/html" id="lastedTp2">
+    {{each data}}
+    <div class="entry">
+        <div><span class="sort">{{$value.category.title}}</span>
+            <h4><a href="detail.html?id={{$value._id}}">{{$value.title}}</a></h4>
+        </div>
+        <div class="title"><span class="user">{{$value.author.nickName}}</span>发表于 <span>2020-02-09</span></div>
+        <div class="main">
+            <p class="brief">
+                {{$value.content.substr(0,180)}}......
+            </p>
+            <p class="extra">
+                阅读（<span>{{$value.meta.views}}</span>）&nbsp;&nbsp; 评论(<span>{{$value.meta.comments}}</span>) &nbsp;&nbsp; <a href="detail.html?id={{$value._id}}"><i class="fa fa-thumbs-up"></i>赞（<span>{{$value.meta.likes}}</span>）</a> &nbsp;&nbsp; 分类：
+                <a href="list.html?categoryId={{$value.category._id}}">{{$value.category.title}}</a>
+            </p>
+            <a href="detail.html?id={{$value._id}}" class="thumb">
+                <img src="{{$value.thumbnail}}" alt="">
+            </a>
+        </div>
+    </div>
+    {{/each}}
+
+</script>
+<script>
+    $(document).on("ajaxStart", function() {
+        NProgress.start();
+    });
+    $(document).on("ajaxComplete", function() {
+        NProgress.done();
+    });
+    //定义分类条目变量
+    //获取轮播图数据
+    $.ajax({
+        url: "/selides",
+        type: "get",
+        success: function(response) {
+            console.log(response);
+            let html = template("swipeTp1", {
+                data: response.records,
+            });
+            $(".swiper-wrapper").html(html);
+            //调用轮播图插件
+            var mySwipe = Swipe(document.querySelector("#slider"), {
+                auto: 3000,
+                transitionEnd: function(index) {
+                    $(".swiper-pagination-bullet").eq(index).addClass("active").siblings("li").removeClass("active");
+                },
+
+            });
+            $(".swiper-button-next").on("click", function() {
+                mySwipe.next();
+            });
+            $(".swiper-button-prev").on("click", function() {
+                mySwipe.prev();
+            });
+        }
+    });
+    //最新发布
+    $.ajax({
+        url: "/posts/lasted",
+        type: "get",
+        success: function(response) {
+            console.log(response);
+            let html = template("lastedTp2", {
+                data: response,
+            });
+            $("#lasted").html(html);
+        }
+    });
+</script>
+
+
+</html>

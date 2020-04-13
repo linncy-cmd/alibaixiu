@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./font/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="./vendors/nprogress/nprogress.css">
+    <script src="./vendors/nprogress/nprogress.js"></script>
+</head>
+
+
+<body style="background-color: #eeeeee;">
+    <div class="wrapper">
+        <div class="navBox2">
+            <ul class="topNav">
+            </ul>
+        </div>
+        <div class="header">
+            <h1>
+                <a href="#">
+                    <img src="./img/logo_03.jpg" alt="">
+                </a>
+            </h1>
+            <ul class="nav" id="navBox">
+            </ul>
+            <div class="form-group clearfix">
+                <form class="search">
+                    <input type="text" placeholder="输入关键字" class="group-control" name="search">
+                    <button class="btn">搜索</button>
+                </form>
+            </div>
+        </div>
+        <div class="slider clearfix">
+            <div class="form-group clearfix">
+                <h4>搜索</h4>
+                <input type="text" placeholder="输入关键字" class="group-control">
+                <button class="btn">搜索</button>
+            </div>
+            <div class="form-group clearfix">
+                <h4>随机推荐</h4>
+                <ul class="random" id="randomBox">
+                </ul>
+            </div>
+            <div class="form-group clearfix">
+                <h4>最新评论</h4>
+                <div id="commentBox"></div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="pannel">
+                <h4 id="category_title">搜索结果如下</h4>
+                <div id="postsBox"></div>
+            </div>
+
+        </div>
+        <div class="footer">
+            <p>© 2016 XIU主题演示 本站主题由 themebetter 提供</p>
+        </div>
+
+    </div>
+</body>
+<script src="./js/jquery-1.12.2.min.js"></script>
+<script src="./vendors/template/template-web.js"></script>
+<script src="./js/public.js"></script>
+<!-- 文章模板 -->
+<script type="text/html" id="postsTp1">
+    {{each data}}
+    <div class="entry">
+        <h4>{{$value.title}}</h4>
+        <div class="title"><span class="user">{{$value.author.nickName}} </span>发表于 <span>{{$imports.formateDate($value.createAt)}}</span></div>
+        <div class="main">
+            <p class="brief">
+                {{$value.content}}
+            </p>
+            <p class="extra">
+                阅读（<span>{{$value.meta.views}}</span>）&nbsp;&nbsp; 评论(<span>{{$value.meta.comments}}</span>) &nbsp;&nbsp; <i class="fa fa-thumbs-up"></i>赞（<span>{{$value.meta.likes}}</span>） &nbsp;&nbsp; 分类：{{$value.category.title}}
+            </p>
+            <a href="#" class="thumb">
+                <img src="{{$value.thumbnail}}" alt="">
+            </a>
+        </div>
+    </div>
+    {{/each}}
+</script>
+<script>
+    $(document).on("ajaxStart", function() {
+        NProgress.start();
+    });
+    $(document).on("ajaxComplete", function() {
+        NProgress.done();
+    });
+    var keys = getUrlParams("keys");
+
+    //获取关键字相关标题文章信息
+    $.ajax({
+        url: "/posts/search/" + keys,
+        type: "get",
+        success: function(response) {
+            console.log(1);
+            console.log(response);
+            if (response.length != 0) {
+                let html = template("postsTp1", {
+                    data: response,
+                });
+                $("#postsBox").html(html);
+            }
+
+        },
+        error: function(e) {
+            console.log(e);
+        }
+    })
+</script>
+
+</html>

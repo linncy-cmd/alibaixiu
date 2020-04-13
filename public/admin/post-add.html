@@ -1,0 +1,297 @@
+<script src="/login/status"></script>
+<script>
+    if (!isLogin) location.href = "login.html"
+</script>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../vendors/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../vendors/nprogress/nprogress.css">
+    <link rel="stylesheet" href="../font/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <script src="../vendors/nprogress/nprogress.js"></script>
+</head>
+
+<body>
+    <div class="main">
+        <nav class="navbar">
+            <button class="btn btn-default navbar-btn fa fa-bars"></button>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><i class="fa fa-user"></i>修改密码</a></li>
+                <li><a href="#" id="logout"><i class="fa fa-sign-out"></i>退出登录</a></li>
+            </ul>
+        </nav>
+        <div class="container-fluid">
+            <div class="page-title">
+                <h1>写文章</h1>
+            </div>
+            <div class="formBox row">
+                <form id="form">
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <label for="title">标题</label>
+                            <input name=title type="text" class="form-control input-lg" id="title" placeholder="文章标题">
+                        </div>
+                        <div class="form-group">
+                            <label for="content">内容</label>
+                            <textarea id="content" class="form-control input-lg" cols="30" rows="10" placeholder="内容" name="content"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="file">文章封面</label>
+                            <input type="file" id="file" class="form-control">
+                            <img class="help-block thumbnail" style="display: none;height: 200px;;" id="images">
+                            <input type="hidden" name="thumbnail" id="thumbnail">
+                        </div>
+                        <div class="form-group">
+                            <label for="category">所属分类</label>
+                            <select class="form-control " id="category" name="category"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="createAt">发布时间</label>
+                            <input type="date" id="createAt" class="form-control" name="createAt">
+                            <img class="help-block thumbnail" style="display: none;">
+                        </div>
+                        <div class="form-group">
+                            <label for="status">状态</label>
+                            <select class="form-control " id="status" name="state">
+                            <option value="0">草稿</option>
+                            <option value="1">已发布</option>
+                        </select>
+                        </div>
+                        <button class="btn btn-primary">保存</button>
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <div class="aside ">
+        <div class="profile ">
+            <img src="../uploads/avatar.jpg " alt=" " class="avatar" id="avatar1">
+            <h3 class="name text-muted " id="preview">Coder</h3>
+        </div>
+        <ul class="nav ">
+            <li><a href="/admin/index.html"><i class="fa fa-dashboard "></i>仪表盘</a></li>
+            <li>
+                <a href="#menu-post" class="collapse in" data-toggle="collapse">
+                    <i class="fa fa-thumb-tack "></i>文章<i class="fa fa-angle-right "></i>
+                </a>
+                <ul id="menu-post">
+                    <li><a href="/admin/posts.html">所有文章</a></li>
+                    <li><a href="/admin/post-add.html">写文章</a></li>
+                    <li><a href="/admin/categories.html">分类目录</a></li>
+                </ul>
+            </li>
+            <li><a href="/admin/comments.html"><i class="fa fa-comments "></i>评论</a></li>
+            <li><a href="/admin/user.html"><i class="fa fa-users "></i>用户</a></li>
+            <li><a href="#menu-setting" data-toggle="collapse" class="in collapse"><i class="fa fa-cog "></i> 设置<i class="fa fa-angle-right "></i></a>
+                <ul id="menu-setting">
+                    <li><a href="/admin/settings.html">网站设置</a></li>
+                    <li><a href="/admin/selides.html">图片轮播</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</body>
+<script src="../css/jquery-1.12.2.min.js "></script>
+<script src="../vendors/bootstrap/js/bootstrap.js "></script>
+<!-- 退出登录 -->
+<script src="../js/logout.js"></script>
+<!-- 引入模板引擎 -->
+<script src="../vendors/template/template-web.js"></script>
+<!-- 分类下拉框模板 -->
+<script type="text/html" id="categaryTp1">
+    {{each categories}}
+    <option value="{{@$value._id}}">{{$value.title}}</option>
+    {{/each}}
+</script>
+<!-- 分类修改模板 -->
+<script type="text/html" id="modifyTp1">
+    <form id="modifyForm">
+        <div class="col-md-9">
+            <div class="form-group">
+                <label for="title">标题</label>
+                <input name=title type="text" class="form-control input-lg" id="title" placeholder="文章标题" value="{{title}}">
+            </div>
+            <div class="form-group">
+                <label for="content">内容</label>
+                <textarea id="content" class="form-control input-lg" cols="30" rows="10" placeholder="内容" name="content">{{content}}</textarea>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="file">文章封面</label>
+                <input type="file" id="file" class="form-control">
+                <img src="{{thumbnail}}" class="help-block thumbnail" style="{{thumbnail ? 'display:block':'display:none'}};height: 200px;;" id="images">
+                <input type="hidden" name="thumbnail" id="thumbnail" value="{{thumbnail}}">
+            </div>
+            <div class="form-group">
+                <label for="category">所属分类</label>
+                <select class="form-control " id="category" name="category">
+                    {{each categories}}
+                        <option {{category == $value._id ? "selected" :""}}  value="{{@$value._id}}">{{$value.title}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="createAt">发布时间</label>
+                <input type="date" id="createAt" class="form-control" name="createAt" value="{{createAt&&createAt.split('T')[0]}}">
+                <img class="help-block thumbnail" style="display: none;">
+            </div>
+            <div class="form-group">
+                <label for="status">状态</label>
+                <select class="form-control " id="status" name="state">
+                <option value="0" {{state == 0 ? "selected" :""}}>草稿</option>
+                <option value="1" {{state == 1 ? "selected" :""}}>已发布</option>
+            </select>
+            </div>
+            <button class="btn btn-primary modify">修改</button>
+
+        </div>
+    </form>
+</script>
+<script>
+    $(document).on("ajaxStart", function() {
+        NProgress.start();
+    });
+    $(document).on("ajaxComplete", function() {
+        NProgress.done();
+    });
+    //初始化界面
+    $.ajax({
+        url: "/categories",
+        type: "get",
+        success: function(response) {
+            let html = template("categaryTp1", {
+                categories: response,
+            });
+            $("#category").html(html);
+        }
+    });
+    //监听上传封面
+    $(".formBox").on("change", "#file", function() {
+        let fileName = this.files[0];
+        let formDate = new FormData();
+        formDate.append("attrName", fileName);
+        $.ajax({
+            url: "/posts/upload",
+            type: "post",
+            data: formDate,
+            //不解析参数
+            processData: false,
+            //不设置参数类型
+            contentType: false,
+            success: function(response) {
+                $("#images").attr("src", response);
+                $("#images").css("display", "block");
+                $("#thumbnail").attr("value", response);
+
+            }
+        });
+    });
+    //添加文章
+    $(".formBox").on("submit", "#form", function() {
+        let data = serializeObject($(this));
+        console.log(data);
+        $.ajax({
+            url: "/posts",
+            type: "post",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            success: function(response) {
+                alert("添加成功");
+                location.href = "/admin/posts.html"
+            },
+            error: function(response) {
+                let err = response.responseJSON;
+                alert("添加文章失败" + err.message);
+            }
+        });
+        return false;
+    });
+    //修改文章
+    $(".formBox").on("submit", "#modifyForm", function() {
+        let data = serializeObject($(this));
+        let id = getUrlParams("id");
+        console.log(data);
+        $.ajax({
+            url: "/posts/" + id,
+            type: "put",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            success: function(response) {
+                alert("修改成功");
+                location.href = "/admin/posts.html"
+            },
+            error: function(response) {
+                let err = response.responseJSON;
+                alert("修改文章失败" + err.message);
+            }
+        });
+        return false;
+    });
+    //获取地址栏参数
+    function getUrlParams(name) {
+        // console.log(location.search);
+        let paramsArr = location.search.substr(1).split("&");
+        for (var i = 0; i < paramsArr.length; i++) {
+            var tap = paramsArr[i].split("=");
+            if (tap[0] == name) {
+                return tap[1];
+            }
+        }
+        //否则没有找到该参数（name），返回-1
+        return -1;
+    };
+    //如果有传参数(文章id)，则是修改操作
+    if (getUrlParams("id") != -1) {
+        let id = getUrlParams("id");
+        $.ajax({
+            url: "/posts/" + id,
+            type: "get",
+            success: function(response) {
+                //获取分类
+                $.ajax({
+                    url: "/categories",
+                    type: "get",
+                    success: function(res) {
+                        response.categories = res;
+                        let html = template("modifyTp1", response);
+                        $(".formBox").html(html);
+                        console.log(response)
+                    }
+                });
+            }
+        })
+    };
+    // <!-- 向服务器端发送请求，获取登录用户信息 -->
+    $.ajax({
+        type: "get",
+        url: "/users/" + userId,
+        success: function(response) {
+            response = JSON.parse(response);
+            if (response.avatar) {
+                $("#avatar1").attr("src", response.avatar);
+            }
+            $("#preview").html(response.nickName)
+        }
+    });
+    //处理表单参数方法
+    function serializeObject(obj) {
+        var params = obj.serializeArray();
+        var result = {};
+        $.each(params, function(index, value) {
+            result[value.name] = value.value;
+        });
+        return result;
+    }
+</script>
+
+</html>
